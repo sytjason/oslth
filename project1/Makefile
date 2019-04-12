@@ -1,5 +1,5 @@
 CC=gcc
-exe=main.out
+exe=main
 obj=main.o vscheduler.o queue.o
 
 .PHONY:clean
@@ -14,5 +14,5 @@ queue.o:queue.c
 	$(CC) -c queue.c
 
 clean:
-	rm -f *.o main.out
+	rm -f *.o main
 

@@ -8,8 +8,8 @@
 #include "vscheduler.h"
 #include "queue.h"
 
-#define SYS_GET_TIME        333
-#define SYS_PRINTK          334
+#define SYS_GET_TIME        334
+#define SYS_PRINTK          335 
 #define GET_START_TIME      1
 #define DISPLAY_END_TIME    0
 #define CPU_FOR_PARENT      0
@@ -30,10 +30,7 @@ int AssignProcessToCPU(int nPid, int nCore)
 
 int LaunchProcess(struct EasyPCB* pPcb)
 {
-    //int   i;
     pid_t nPid = fork();
-
-    printf("before pcb = %p\n", pPcb);
 
     if (nPid < 0)
     {
@@ -44,7 +41,6 @@ int LaunchProcess(struct EasyPCB* pPcb)
     if (nPid == 0)
     {
         pid_t nChildPid = getpid();
-        printf("nChildPid = %d\n", nChildPid);
 
         if (AssignProcessToCPU(nChildPid, CPU_FOR_CHILD))
         {
@@ -58,10 +54,8 @@ int LaunchProcess(struct EasyPCB* pPcb)
         for (i=0; i<nExeTime; ++i)
         {
             RUN_UINT_TIME();
-       //     printf("pid = %d pPcb->nExecTime = %d\n", nChildPid, pPcb->nExecTime);
         }
 
-        //printf("##Pid = %d finished.\n", pPcb->nPid);
         printf("##Pid = %d finished.\n", nChildPid);
 
         syscall(SYS_GET_TIME, &(pPcb->nEnd_Sec), &(pPcb->nEnd_nSec));
@@ -69,8 +63,6 @@ int LaunchProcess(struct EasyPCB* pPcb)
 
         exit(0);
     }
-
-    printf("Launch pid = %d\n", nPid);
 
     return nPid;
 }
@@ -112,30 +104,6 @@ int SelectNextProcess(struct EasyPCB *pPcb, int nTotalPcb, int nPolicy)
     else
     if (nPolicy == POLICY_RR)
     {
-       /* for (i=0; i<nTotalPcb; ++i)
-        {
-            if (nRunningProc == -1)
-            {
-                if (pPcb[ i ].nPid != -1 && pPcb[ i ].nExecTime > 0)
-                {
-                    nNextProc = i;
-                    break;
-                }
-            }
-            else
-            if ((nUnitTime - nLastUnitTime) % 500)
-            {
-                nNextProc = (nRunningProc + 1) % nTotalPcb;
-                while (pPcb[ i ].nPid == -1 || pPcb[ i ].nExecTime == 0)
-                {
-                    nNextProc = (nRunningProc + 1) % nTotalPcb;
-                }
-            }
-            else
-            {
-                nNextProc = nRunningProc;
-            }
-        }*/
         if(nRunningProc == -1)
         {
             if(q_isEmpty(&proc_queue)==0)
@@ -150,11 +118,11 @@ int SelectNextProcess(struct EasyPCB *pPcb, int nTotalPcb, int nPolicy)
                 q_insert(&proc_queue,nRunningProc);
             nNextProc = q_peek(&proc_queue);
             q_remove(&proc_queue);
-        }else
+        }
+        else
         {
             nNextProc = nRunningProc;
         }
-        
     }
     else
     if (nPolicy == POLICY_PSJF || nPolicy == POLICY_SJF)
@@ -170,8 +138,6 @@ int SelectNextProcess(struct EasyPCB *pPcb, int nTotalPcb, int nPolicy)
             }
         }
     }
-    if(nUnitTime%100 == 0||nUnitTime%100 == 99)
-        printf("nNextProc = %d nowTime = %d\n", nNextProc,nUnitTime);
 
     return nNextProc;
 }
@@ -200,9 +166,6 @@ void DoScheduling(struct EasyPCB *pPcb, int nTotalPcb, int nPolicy)
         if (nRunningProc != -1 && pPcb[ nRunningProc ].nExecTime == 0)
         {
             waitpid(pPcb[ nRunningProc ].nPid, NULL, 0);
-
-            printf("Pid = %d finished.\n", pPcb[ nRunningProc ].nPid);
-
             pPcb[ nRunningProc ].nPid = -1;
             nRunningProc = -1;
             nFinished++;
@@ -217,7 +180,6 @@ void DoScheduling(struct EasyPCB *pPcb, int nTotalPcb, int nPolicy)
             {
                 pPcb[ i ].nPid = LaunchProcess(&pPcb[ i ]);
                 q_insert(&proc_queue,i);
-                printf("After pid = %d\n", pPcb[ i ].nPid);
                 BlockProcess(pPcb[ i ].nPid);
             }
         }
@@ -248,11 +210,7 @@ void DoScheduling(struct EasyPCB *pPcb, int nTotalPcb, int nPolicy)
         if (nRunningProc != -1)
         {
             pPcb[ nRunningProc ].nExecTime--;
-
-           // printf("Proc =%d  exectime = %d\n", pPcb[ nRunningProc ].nPid, pPcb[ nRunningProc ].nExecTime);
         }
         nUnitTime++;
     }
-    
-    printf("Entry DoScheduling!\n");
 }
