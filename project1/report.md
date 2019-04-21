@@ -20,7 +20,7 @@ DoScheduling(pPcb, nTotalPcb, nPolicy)
 
 ## 排班模擬程式:
 1. nUnitTime 初始為0
-2. 檢查是否有 process 已完工, 若有則將它終止並且更新 nFinished
+2. 檢查是否有 process 已完工, 若有則將它終止並且更新 nFinished, 若 nFinished 等於總 processes 數則終止
 3. 檢查是否有 process 其 ready time 已到達, 若有則初始它並且將它插入 ready queue
 4. 選擇此 unit time 當中要執行的 process
     - FIFO:
