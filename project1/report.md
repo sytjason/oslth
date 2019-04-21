@@ -375,7 +375,7 @@ DoScheduling(pPcb, nTotalPcb, nPolicy)
 > P4 0 500  
 > P5 0 500  
 
-> output:
+> output:  
 > P1 13180  
 > P2 13181  
 > P3 13182  
@@ -413,7 +413,7 @@ DoScheduling(pPcb, nTotalPcb, nPolicy)
 
 ### SJF_1.txt:
 
-> input:
+> input:  
 > SJF  
 > 4  
 > P1 0 7000  
