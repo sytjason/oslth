@@ -392,6 +392,7 @@ $theoretical\_time(t) = (t - time_{dmesg\_P1\_start\_time}) \div unit\_time$
 將 dmesg output 轉換後得到
 
 **實際結果:**
+
 | process | start | end  |
 | ------- | ----- | ---- |
 |P1	  |0	  |542   |
@@ -401,6 +402,7 @@ $theoretical\_time(t) = (t - time_{dmesg\_P1\_start\_time}) \div unit\_time$
 |P5       |7      |2640  |
 
 **理論結果:**
+
 | process | start | end  |
 | ------- | ----- | ---- |
 |P1	  |0	  |500   |
