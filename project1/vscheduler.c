@@ -8,8 +8,8 @@
 #include "vscheduler.h"
 #include "queue.h"
 
-#define SYS_GET_TIME        334
-#define SYS_PRINTK          335 
+#define SYS_GET_TIME        333
+#define SYS_PRINTK          334 
 #define GET_START_TIME      1
 #define DISPLAY_END_TIME    0
 #define CPU_FOR_PARENT      0
@@ -56,7 +56,7 @@ int LaunchProcess(struct EasyPCB* pPcb)
             RUN_UINT_TIME();
         }
 
-        printf("##Pid = %d finished.\n", nChildPid);
+        printf("%s %d\n", pPcb->szName ,nChildPid);
 
         syscall(SYS_GET_TIME, &(pPcb->nEnd_Sec), &(pPcb->nEnd_nSec));
         syscall(SYS_PRINTK, pPcb->nStart_Sec, pPcb->nStart_nSec, pPcb->nEnd_Sec, pPcb->nEnd_nSec, nChildPid);

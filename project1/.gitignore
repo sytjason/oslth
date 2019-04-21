@@ -2,3 +2,4 @@
 *.out
 main
 *session.vim
+*.ipynb
