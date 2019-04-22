@@ -1,4 +1,5 @@
 # OS Project 1 Report
+
  組員: 林宸慶, 王啟時, 涂世昱
 
 # 設計
@@ -363,7 +364,7 @@ DoScheduling(pPcb, nTotalPcb, nPolicy)
 ## 將 dmesg 的結果換算成理論形式
 我們一律假設P1的 start time 為真正的 start time, 其他 processes 的 start time 及 end time 則可以用以下方程式表示
 
-<img src="http://latex.codecogs.com/gif.latex?theoretical\_time(t) = (t - time_{dmesg\_P1\_start\_time}) / unit\_time + time_{P1\_start}" />
+$theoretical\_time(t) = (t - time_{dmesg\_P1\_start\_time}) / unit\_time + time_{P1\_start}​$
 
 ### FIFO_1.txt:
 > input:  
